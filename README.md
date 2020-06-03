@@ -1,4 +1,4 @@
-# vilma
+# Vilma
 
 Statistical and financial clojure. 
 
@@ -23,9 +23,18 @@ Throws a RuntimeException if the information is not sufficient.
 (fin/present-value :cashflow [100 100 -10 100] :discount-rate 10)
 ;; => 234.34
 
+;; Present value of non-growing perpetuity
+(present-value :payment 10 :discount-rate 10)
+;; => 1000.00
+
+;; Present value of growing perpetuity
+(present-value :payment 10 :discount-rate 10 :growth-rate 5)
+;; => 500.00
+
 ;; Calculating future value
 (fin/future-value :present-value 100 :n 10 :interest-rate 5)
 ;; => 162.89
+
 ```
 You can't input just anything (even though it seems like it).
 There are very specific combination of inputs that work. (And more to come)

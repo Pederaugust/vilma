@@ -22,12 +22,30 @@
        (fact "present value of a series 0 incomming cash flow gives a present value of 0"
              (finance/present-value :cashflow [0 0 0] :discount-rate 5) => 0.0)
 
+       (fact "present value of a series with discount-rate of zero returns 0"
+             (finance/present-value :cashflow [0 0 0] :discount-rate 0) => 0.0)
+
        (fact "Present value with a bad argument-map"
-             (finance/present-value :cash-flow [0 0 0] :discountrate 5) => (throws RuntimeException))
+             (finance/present-value :crash-clow [0 0 0] :baaaad 5) => (throws RuntimeException))
        (fact "Bad arguments throws exception"
              (finance/present-value :bad 0) => (throws RuntimeException))
        (fact "No arguments throws exception"
              (finance/present-value :bad 0) => (throws RuntimeException)))
+
+
+(facts "Present value of a perpetuity"
+       (fact "present-value calculates perpetuity properly"
+             (finance/present-value :payment 10 :discount-rate 5) => 200.00)
+       (fact "present-value with perpetuity and discount-rate = 0 returns 0"
+             (finance/present-value :payment 10 :discount-rate 0) => 0.0)
+       (fact "growing perpetuity calculates properly"
+             (finance/present-value :payment 10 :discount-rate 5 :growth-rate 3) => 500.0)
+       (fact "growing perpetuity calculates properly with growth-rate of 0"
+             (finance/present-value :payment 10 :discount-rate 5 :growth-rate 0) => 200.00)
+       (fact "growing perpetuity calculates properly with payment of 0"
+             (finance/present-value :payment 0 :discount-rate 5 :growth-rate 0) => 0.00)
+       (fact "growing perpetuity calculates properly with growth-rate bigger than oportunity cost of capital (discount-rate) "
+             (finance/present-value :payment 10 :discount-rate 5 :growth-rate 7) => -500.00))
 
 
 (facts "About future value"

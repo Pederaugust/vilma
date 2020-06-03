@@ -21,15 +21,7 @@
   [x number?]
   (/ (Math/round (* x 100.0)) 100.0))
 
-"
-(s/fdef reduce-indexed
-  :args (s/alt :two-arity (s/cat :f ::indexed-reduce-fn
-                                 :coll ::indexable-collection)
-               :three-arity (s/cat :f ::indexed-reduce-fn
-                                   :init some?
-                                   :coll ::indexable-collection))
-  :ret any?)
-"
+
 (defn reduce-indexed
   "Reduces a collection `coll` with a function `f`. Alternatively an initial value `init`.
   The function has to have an additional argument which specifies the index.

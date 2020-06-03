@@ -24,11 +24,11 @@ Throws a RuntimeException if the information is not sufficient.
 ;; => 234.34
 
 ;; Present value of non-growing perpetuity
-(present-value :payment 10 :discount-rate 10)
+(fin/present-value :payment 10 :discount-rate 10)
 ;; => 1000.00
 
 ;; Present value of growing perpetuity
-(present-value :payment 10 :discount-rate 10 :growth-rate 5)
+(fin/present-value :payment 10 :discount-rate 10 :growth-rate 5)
 ;; => 500.00
 
 ;; Calculating future value
@@ -43,6 +43,10 @@ There are very specific combination of inputs that work. (And more to come)
 {:future-value :n :discount-rate}
 ;; or
 {:cashflow :discount-rate}
+;; or 
+{:payment :discount-rate}
+;; or
+{:payment :discount-rate :growth-rate}
 
 ;; Possible inputmaps for present value
 {:present-value :n :interest-rate}

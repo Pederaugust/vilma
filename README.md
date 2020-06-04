@@ -13,7 +13,10 @@ Throws a RuntimeException if the information is not sufficient.
 (ns vilma.finance-test
   (:require [vilma.finance :as fin])
 
-;; Calculating present value
+```
+
+#### present-value function
+```clojure
 
 ;; Simple present value of a future value
 (fin/present-value :future-value 100 :n 10 :discount-rate 5)
@@ -39,7 +42,11 @@ Throws a RuntimeException if the information is not sufficient.
 (fin/present-value :payment 10 :discount-rate 10 :n 10 :growth-rate 5) 
 ;; => 74.40
 
-;; Calculating future value
+``` 
+
+#### future-value function
+```clojure
+
 (fin/future-value :present-value 100 :n 10 :interest-rate 5)
 ;; => 162.89
 

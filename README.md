@@ -31,24 +31,40 @@ Throws a RuntimeException if the information is not sufficient.
 (fin/present-value :payment 10 :discount-rate 10 :growth-rate 5)
 ;; => 500.00
 
+;; Present value of non-growing annuity
+(fin/present-value :payment 10 :discount-rate 10 :n 10) 
+;; => 61.45
+
+;; Present value of growing annuity
+(fin/present-value :payment 10 :discount-rate 10 :n 10 :growth-rate 5) 
+;; => 74.40
+
 ;; Calculating future value
 (fin/future-value :present-value 100 :n 10 :interest-rate 5)
 ;; => 162.89
 
 ```
+
 You can't input just anything (even though it seems like it).
 There are very specific combination of inputs that work. (And more to come)
+
+#### Possible inputmaps for present-value
 ```clojure
-;; Possible inputmaps for present value
 {:future-value :n :discount-rate}
 ;; or
 {:cashflow :discount-rate}
-;; or 
+;; or for perpetuity
 {:payment :discount-rate}
-;; or
+;; or perpetuity with growth
 {:payment :discount-rate :growth-rate}
+;; or for annuity
+{:payment :discount-rate :n}
+;; or for annuity with growth
+{:payment :discount-rate :growth-rate :n}
+```
 
-;; Possible inputmaps for present value
+#### Possible inputmaps for future-value
+```clojure
 {:present-value :n :interest-rate}
 ```
 

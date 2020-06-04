@@ -47,6 +47,18 @@
        (fact "growing perpetuity calculates properly with growth-rate bigger than oportunity cost of capital (discount-rate) "
              (finance/present-value :payment 10 :discount-rate 5 :growth-rate 7) => -500.00))
 
+(facts "Present value of an annuity"
+       (fact "present-value calculates annuity properly"
+             (finance/present-value :payment 100 :discount-rate 5 :n 10) => 772.17)
+       (fact "present-value discount-rate = 0 returns 0"
+             (finance/present-value :payment 10 :discount-rate 0 :n 10) => 0.0)
+       (fact "present-value of annuity with growth works"
+             (finance/present-value :payment 10 :discount-rate 10 :n 10 :growth-rate 5) => 74.40)
+       (fact "present-value of annuity with growth works when growth-rate is 0"
+             (finance/present-value :payment 10 :discount-rate 10 :n 10 :growth-rate 0) => 61.45)
+       (fact "present-value of annuity with growth works when all variables are negative"
+             (finance/present-value :payment -10 :discount-rate -10 :n -10 :growth-rate 0) => 65.13))
+
 
 (facts "About future value"
        (fact "Normal compounding works"

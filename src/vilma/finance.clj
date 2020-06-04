@@ -19,14 +19,16 @@
 (s/def ::future-value-args (s/keys* :req-un [::n ::interest-rate ::present-value]))
 
 
+(defn discount-factor
+  [discount-rate n]
+  (/ 1 (utils/exponent (+ 1 (/ discount-rate 100)) n)))
+
 (defn-spec simple-present-value float?
   "Takes a `future-value` and discounts it with `n` years in the future. Uses a `discount-rate` in percent.
    Returns the discounted present value"
   [future-value number?, n int?, discount-rate ::discount-rate]
 
-  (utils/round (/ future-value
-                  (utils/exponent (+ 1 (/ discount-rate 100))
-                                  n))))
+  (utils/round (* future-value (discount-factor discount-rate n))))
 
 
 (defn-spec discount-cashflow float?
@@ -46,7 +48,7 @@
   :ret float?)
 (defn perpetuity
   "Calculates the value of an infinite perpetuity.
-   Takes yearly `payment` and `discount-rate`"
+   Takes yearly `payment` and `discount-rate` and optional `growth-rate`"
 
   ([payment discount-rate]
    (perpetuity payment discount-rate 0))
@@ -54,31 +56,64 @@
   ([payment discount-rate growth-rate]
    (utils/round (/ payment (- (/ discount-rate 100) (/ growth-rate 100))))))
 
+(s/fdef annuity
+  :args (s/alt :three-arity (s/cat :payment ::payment :discount-rate ::discount-rate :n ::n)
+               :four-arity (s/cat :payment ::payment :discount-rate ::discount-rate :growth-rate ::growth-rate :n ::n))
+  :ret float?)
+(defn annuity
+  "Calculates the present value of an annuity with or without growth"
+  ([payment discount-rate n]
+   (annuity payment discount-rate 0 n))
+
+  ([payment discount-rate growth-rate n]
+   (let [growth (/ growth-rate 100)
+         discount (/ discount-rate 100)]
+
+     (utils/round (* payment (/ (- 1 (* (discount-factor discount-rate n)
+                                        (utils/exponent (+ 1 growth) n)))
+                                (- discount growth)))))))
+
 
 (defn-spec present-value ::present-value
   "Calculates the present value.
   If the arguments are sufficient to find it.
   Possible argument combinations:
-     Simple cashflow: {`cashflow`, `discount-rate`}
-     Discounting a future-value, `n` years in the future: {`future-value`, `n`, `discount-rate`}
-     Non-growing Perpetuity (equal payments every year, forever): {`payment`, `discount-rate`}
-     Growing Perpetuity (growing payments every year, forever): {`payment`, `discount-rate` `growth-rate`}
+    Simple cashflow: {`cashflow`, `discount-rate`}
+    Discounting a future-value, `n` years in the future: {`future-value`, `n`, `discount-rate`}
+    Non-growing Perpetuity (equal payments every year, forever): {`payment`, `discount-rate`}
+    Growing Perpetuity (growing payments every year, forever): {`payment`, `discount-rate` `growth-rate`}
+    Annuity: {`payment` `discount-rate` `n`}
+    Growing annuity: {`payment` `discount-rate` `growth-rate` `n`}
 
   Example:
   ```clojure
   (present-value :cashflow [100 100 -10 100] :discount-rate 10)
+
   ;; or
   (present-value :future-value 100 :n 10 :discount-rate 5)
+
   ;; or value of non-growing perpetuity
   (present-value :payment 10 :discount-rate 10)
   ;; or value of growing perpetuity
   (present-value :payment 10 :discount-rate 10 :growth-rate 10)
+
+  ;; or for annuity
+  (present-value :payment 10 :discount-rate 10 :n 10)
+  ;; or for annuity with growth
+  (present-value :payment 10 :discount-rate 10 :n 10 :growth-rate 5)
   ```"
 
   [& {:keys [future-value n discount-rate cashflow payment growth-rate]} ::present-value-args]
 
   (cond (= discount-rate 0)
         0.0
+
+        (and payment discount-rate growth-rate n)
+        (annuity payment discount-rate growth-rate n)
+
+        (and payment discount-rate n)
+        (annuity payment discount-rate n)
+
         (and payment discount-rate growth-rate)
         (perpetuity payment discount-rate growth-rate)
 

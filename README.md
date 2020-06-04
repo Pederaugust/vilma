@@ -5,6 +5,28 @@ Statistical and financial clojure.
 
 ## Usage
 
+### Learn package
+This package contains more advanced statistical functions for prediction
+``` clojure
+(ns my-namespace.core
+    (:require [vilma.learn :as learn]))
+```
+
+If you want to do normal linear regression (least-squares):
+
+``` clojure
+(def my-model (least-squares [1 2 3 4 5] [2 4 6 8 10]))
+
+my-model => {:a 0.0, :b 2.0, :r2-score 1.0}
+```
+when you have your model, you can start to predict a y given an x:
+
+``` clojure
+(least-squares-predict my-model 10)
+=> 20.0
+```
+This package is currently being worked on, so changes to the api will happen
+
 ### Statistics package
 This package contains standard statistic functions
 ``` clojure

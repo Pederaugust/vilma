@@ -17,3 +17,11 @@
              (stat/sample-standard-deviation [1 2 3 4 5 6]) => 1.87)
        (fact "population standard deviation works for X"
              (stat/population-standard-deviation [1 2 3 4 5 6]) => 1.71))
+
+(facts "About covariance"
+       (fact "Calculates correct covariance"
+             (stat/sample-covariance [1 2 3 4] [4 3 2 1]) => -1.67)
+       (fact "Throws assertionerror if the lists are the wrong length in relation to each other"
+             (stat/sample-covariance [1 2 3 4] [4 3 2 1 10]) => (throws AssertionError))
+       (fact "Calculates correct covariance numerator"
+             (stat/covariance-numerator [1 2 3 4] [4 3 2 1] 2.5 2.5) => -5.0))

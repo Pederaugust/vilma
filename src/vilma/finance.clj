@@ -124,7 +124,10 @@
         (discount-cashflow cashflow discount-rate)
 
         (and future-value n discount-rate)
-        (simple-present-value future-value n discount-rate)))
+        (simple-present-value future-value n discount-rate)
+
+        :else
+        (throw (AssertionError. "Wrong argument combination, check the argument list"))))
 
 
 (defn-spec future-value ::future-value

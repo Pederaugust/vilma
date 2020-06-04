@@ -45,4 +45,5 @@
 
 (facts "about average"
        (fact "average of numbers"
-             (utils/average [1 2 3]) => 2.0))
+             (utils/average [1 2 3]) => 2.0
+             (utils/average [1 2 3 4]) => 2.5))

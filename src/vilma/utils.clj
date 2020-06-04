@@ -9,6 +9,10 @@
   [x number?, n int?]
   (Math/pow x n))
 
+(defn-spec squared number?
+  [x number?]
+  (* x x))
+
 (defn-spec round float?
   "Takes `x`, Rounds `x` to the nearest 2 decimal places"
   [x number?]

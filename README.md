@@ -5,12 +5,40 @@ Statistical and financial clojure.
 
 ## Usage
 
+### Statistics package
+This package contains standard statistic functions
+``` clojure
+(ns my-namespace.core
+    (:require [vilma.statistics :as stat]))
+```
+
+#### Calculating variance and standard deviation
+``` clojure
+(stat/population-variance [1 2 3 4 5 6])
+;; => 2.92
+
+(stat/sample-variance [1 2 3 4 5 6]) 
+;; => 3.5
+
+;; For standard deviation you can either use the general function that takes variance as an argument
+(stat/standard-deviation 3.5) 
+;; => 1.87
+;; This can be more efficient especially if you already have the variance
+
+;; Or use the standard deviation functions if you're not interested in the variance
+(stat/sample-standard-deviation [1 2 3 4 5 6]) 
+;; => 1.87
+
+(stat/population-standard-deviation [1 2 3 4 5 6]) 
+;; => 1.71
+```
+
 ### Finance package
 This package is used for standard financial calculation. Designed to take named arguments.
 Throws a RuntimeException if the information is not sufficient.
 
 ```clojure
-(ns vilma.finance-test
+(ns my-namespace.core
   (:require [vilma.finance :as fin])
 
 ```
@@ -88,6 +116,12 @@ There are very specific combination of inputs that work. (And more to come)
 ```clojure
 {:present-value :n :interest-rate}
 ```
+
+### Future plans
+In the future I plan to implement learning algorithms like linear regression and other algorithms you find in scikit learn.
+I also plan on implementing a neural network.
+For the financial functions I plan on implementing functions that enable you to find the discount-rate, growth-rate,
+n, payment.
 
 ## License
 

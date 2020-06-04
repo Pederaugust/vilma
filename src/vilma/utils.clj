@@ -4,13 +4,6 @@
    [orchestra.core :refer [defn-spec]]
    [orchestra.spec.test :as st]))
 
-(s/def ::indexed-reduce-fn (s/fspec :args (s/cat :acc number?
-                                                 :element number?
-                                                 :index int?)))
-(s/def ::indexable-collection (s/or :list list?
-                                    :vector vector?))
-
-
 (defn-spec exponent number?
   "Takes `x` and `n`, Returns power of `x` to the `n`"
   [x number?, n int?]
@@ -20,6 +13,14 @@
   "Takes `x`, Rounds `x` to the nearest 2 decimal places"
   [x number?]
   (/ (Math/round (* x 100.0)) 100.0))
+
+(defn-spec average float?
+  [numbers sequential?]
+  (float (/ (reduce + numbers) (count numbers))))
+
+(defn-spec square-root float?
+  [x number?]
+  (float (Math/sqrt x)))
 
 
 (defn reduce-indexed

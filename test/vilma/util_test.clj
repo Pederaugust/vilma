@@ -42,3 +42,7 @@
                                       (+ acc
                                          element))
                                    [0 0 0 0]) => 0))
+
+(facts "about average"
+       (fact "average of numbers"
+             (utils/average [1 2 3]) => 2.0))

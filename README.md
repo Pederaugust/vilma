@@ -17,13 +17,13 @@ If you want to do normal linear regression (least-squares):
 ``` clojure
 (def my-model (least-squares [1 2 3 4 5] [2 4 6 8 10]))
 
-my-model => {:a 0.0, :b 2.0, :r2-score 1.0}
+;; => {:a 0.0, :b 2.0, :r2-score 1.0}
 ```
 when you have your model, you can start to predict a y given an x:
 
 ``` clojure
 (least-squares-predict my-model 10)
-=> 20.0
+;; => 20.0
 ```
 This package is currently being worked on, so changes to the api will happen
 
@@ -53,6 +53,11 @@ This package contains standard statistic functions
 
 (stat/population-standard-deviation [1 2 3 4 5 6]) 
 ;; => 1.71
+
+;; Sample covariance
+(stat/sample-covariance [1 2 3 4] [4 3 2 1])
+;; => -1.67
+
 ```
 
 ### Finance package

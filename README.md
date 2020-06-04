@@ -15,31 +15,43 @@ Throws a RuntimeException if the information is not sufficient.
 
 ```
 
+Arguments to functions are non-positional, so the order doesn't matter.
 #### present-value function
 ```clojure
 
 ;; Simple present value of a future value
-(fin/present-value :future-value 100 :n 10 :discount-rate 5)
+(fin/present-value :future-value 100 
+                   :n 10 
+                   :discount-rate 5)
 ;; => 61.39
 
-;; Present value of a cash flow
-(fin/present-value :cashflow [100 100 -10 100] :discount-rate 10)
+;; Present value of cashflow
+(fin/present-value :cashflow [100 100 -10 100] 
+                   :discount-rate 10)
 ;; => 234.34
 
 ;; Present value of non-growing perpetuity
-(fin/present-value :payment 10 :discount-rate 10)
+(fin/present-value :payment 10 
+                   :discount-rate 10)
 ;; => 1000.00
 
 ;; Present value of growing perpetuity
-(fin/present-value :payment 10 :discount-rate 10 :growth-rate 5)
+(fin/present-value :payment 10 
+                   :discount-rate 10 
+                   :growth-rate 5)
 ;; => 500.00
 
 ;; Present value of non-growing annuity
-(fin/present-value :payment 10 :discount-rate 10 :n 10) 
+(fin/present-value :payment 10 
+                   :discount-rate 10 
+                   :n 10) 
 ;; => 61.45
 
 ;; Present value of growing annuity
-(fin/present-value :payment 10 :discount-rate 10 :n 10 :growth-rate 5) 
+(fin/present-value :payment 10 
+                   :discount-rate 10 
+                   :n 10 
+                   :growth-rate 5) 
 ;; => 74.40
 
 ``` 
@@ -47,7 +59,9 @@ Throws a RuntimeException if the information is not sufficient.
 #### future-value function
 ```clojure
 
-(fin/future-value :present-value 100 :n 10 :interest-rate 5)
+(fin/future-value :present-value 100 
+                  :n 10 
+                  :interest-rate 5)
 ;; => 162.89
 
 ```

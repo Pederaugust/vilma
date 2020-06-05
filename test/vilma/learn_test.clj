@@ -16,9 +16,22 @@
          (fact "sum of squares total works"
                (learn/sum-squares-total y 5.25) => 18.75)
          (fact "r2 score is correct"
-               (learn/r2-score model X y 5.25) => 0.77))
-       (fact "r2-score of total correlation is 1"
-             (learn/r2-score (learn/least-squares [1 2 3 4] [1 2 3 4])
-                             [1 2 3 4]
-                             [1 2 3 4]
-                             2.5) => 1.0))
+               (learn/r2-score 4.3 18.75) => 0.77))
+
+       (let [X [1 2 3 4]
+             y [1 2 3 4]
+             model (learn/least-squares X y)]
+
+         (fact "predict works for one number"
+               (learn/predict model 5) => 5.0)
+         (fact "predict works for sequences"
+               (learn/predict model [1 8]) => [1.0 8.0])
+         (fact "r2-score of 100 % when numbers align"
+               (:r2-score model) => 1.0)))
+
+;(facts "Multivariable linear regression"
+       ;(let [X [[1 2] [2 2] [3 1] [4 2]]
+             ;y [1 2 3 4]
+             ;model (learn/least-squares X y))
+         ;(fact "Calculates correctly a"
+                 ;(:a model) => 1.0)))

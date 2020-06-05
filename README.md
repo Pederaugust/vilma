@@ -12,20 +12,21 @@ This package contains more advanced statistical functions for prediction
     (:require [vilma.learn :as learn]))
 ```
 
-If you want to do normal linear regression (least-squares):
+#### Creating models
+There is currently only one model. Single variable Least squares linear regression. 
 
 ``` clojure
-(def my-model (least-squares [1 2 3 4 5] [2 4 6 8 10]))
+(def my-model (learn/least-squares [1 2 3 4 5] [2 4 6 8 10]))
 
 ;; => {:a 0.0, :b 2.0, :r2-score 1.0}
 ```
-when you have your model, you can start to predict a y given an x:
+#### Predicting outcomes
+when you have your model, you can start to predict:
 
 ``` clojure
-(least-squares-predict my-model 10)
+(learn/predict my-model 10)
 ;; => 20.0
 ```
-This package is currently being worked on, so changes to the api will happen
 
 ### Statistics package
 This package contains standard statistic functions

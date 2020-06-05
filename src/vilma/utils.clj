@@ -9,7 +9,7 @@
   [x number?, n int?]
   (Math/pow x n))
 
-(defn-spec squared number?
+(defn-spec square number?
   [x number?]
   (* x x))
 

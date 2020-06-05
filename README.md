@@ -18,7 +18,7 @@ There is currently only one model. Single variable Least squares linear regressi
 ``` clojure
 (def my-model (learn/least-squares [1 2 3 4 5] [2 4 6 8 10]))
 
-;; => {:a 0.0, :b 2.0, :r2-score 1.0}
+;; => {:model-type :least-squares, :a 0.0, :b 2.0, :r2-score 1.0, :SSE 0.0, :SST 20.0}
 ```
 #### Predicting outcomes
 when you have your model, you can start to predict:

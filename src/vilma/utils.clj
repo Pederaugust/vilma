@@ -9,6 +9,10 @@
   [x number?, n int?]
   (Math/pow x n))
 
+(defn-spec eulers number?
+  [n number?]
+  (Math/exp n))
+
 (defn-spec square number?
   [x number?]
   (* x x))
@@ -26,23 +30,6 @@
   [x number?]
   (float (Math/sqrt x)))
 
-
-(defn reduce-indexed
-  "Reduces a collection `coll` with a function `f`. Alternatively an initial value `init`.
-  The function has to have an additional argument which specifies the index.
-  Example f: (fn [acc element index] (if (odd? index) (+ acc element) acc)"
-
-  ([f coll]
-   (reduce-indexed f 0 coll))
-
-  ([f init coll]
-   (:sum (reduce (fn [{sum :sum index :index} element]
-                  {:sum (f sum element index)
-                   :index (inc index)})
-
-                 {:sum init
-                  :index 0}
-                 coll))))
 
 
 (st/instrument)

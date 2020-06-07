@@ -37,10 +37,14 @@
 
   (if (empty? cashflow)
     0.0
-    (utils/round (utils/reduce-indexed (fn [acc element index]
-                                         (+ (simple-present-value element (+ index 1) discount-rate)
-                                            acc))
-                                       cashflow))))
+    (->> (map (fn [element index]
+                (simple-present-value element (+ index 1) discount-rate))
+              cashflow
+              (range (count cashflow)))
+         (reduce +)
+         utils/round)))
+
+
 
 (s/fdef perpetuity
   :args (s/alt :two-arity (s/cat :payment ::payment :discount-rate ::discount-rate)

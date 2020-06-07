@@ -42,12 +42,10 @@
 
 
 (defn-spec covariance-numerator float? [X sequential?, Y sequential?, avgX number?, avgY number?]
-  (reduce + (loop [redX X, redY Y, result []]
-              (if (empty? redX)
-                result
-                (recur (rest redX) (rest redY)
-                       (conj result (* (- (first redX) avgX)
-                                       (- (first redY) avgY))))))))
+  (->> (map (fn [x y] (* (- x avgX)
+                         (- y avgY)))
+            X Y)
+       (reduce +)))
 
 (defn sample-covariance
 

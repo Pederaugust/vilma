@@ -29,6 +29,7 @@
          (fact "r2-score of 100 % when numbers align"
                (:r2-score model) => 1.0)))
 
+
 ;(facts "Multivariable linear regression"
        ;(let [X [[1 2] [2 2] [3 1] [4 2]]
              ;y [1 2 3 4]

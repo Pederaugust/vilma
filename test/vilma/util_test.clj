@@ -22,26 +22,6 @@
        (fact "low rounding floors it"
              (utils/round 10.112) => 10.11))
 
-(facts "About reduce-indexed"
-       (fact "Normal excecution"
-             (utils/reduce-indexed (fn [acc element index]
-                                     (+ acc
-                                        (+ element index)))
-                                   [1 2 3]) => 9
-             (utils/reduce-indexed (fn [acc element index]
-                                     (+ acc
-                                        (+ element (+ index 1))))
-                                   [1 2 3]) => 12)
-       (fact "Calling reduce-indexed throws exception with a number instead of list"
-             (utils/reduce-indexed (fn [acc element index]
-                                      (+ acc
-                                         (+ element index)))
-                                   0) => (throws RuntimeException))
-       (fact "with list of zeros returns sum of zero"
-             (utils/reduce-indexed (fn [acc element index]
-                                      (+ acc
-                                         element))
-                                   [0 0 0 0]) => 0))
 
 (facts "about average"
        (fact "average of numbers"

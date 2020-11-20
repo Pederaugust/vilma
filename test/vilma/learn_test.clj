@@ -30,9 +30,16 @@
                (:r2-score model) => 1.0)))
 
 
+
 ;(facts "Multivariable linear regression"
        ;(let [X [[1 2] [2 2] [3 1] [4 2]]
              ;y [1 2 3 4]
              ;model (learn/least-squares X y))
          ;(fact "Calculates correctly a"
                  ;(:a model) => 1.0)))
+
+(facts "Neural net"
+       (fact "Neuralnet initializes properly"
+             (learn/neuralnet-init :input-shape 10) => {:model-type :neuralnet
+                                                        :input-shape 10
+                                                        :layers []}))

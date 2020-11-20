@@ -23,7 +23,7 @@
              (utils/round 10.112) => 10.11))
 
 
-(facts "about average"
-       (fact "average of numbers"
-             (utils/average [1 2 3]) => 2.0
-             (utils/average [1 2 3 4]) => 2.5))
+(facts "about mean"
+       (fact "mean of numbers"
+             (utils/mean [1 2 3]) => 2.0
+             (utils/mean [1 2 3 4]) => 2.5))

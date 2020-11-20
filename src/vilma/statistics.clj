@@ -16,13 +16,13 @@
 
 (defn-spec population-variance float?
   [X sequential?]
-  (utils/round (/ (variance-numerator X (utils/average X))
+  (utils/round (/ (variance-numerator X (utils/mean X))
                   (count X))))
 
 
 (defn-spec sample-variance float?
   [X sequential?]
-  (utils/round (/ (variance-numerator X (utils/average X))
+  (utils/round (/ (variance-numerator X (utils/mean X))
                   (- (count X) 1))))
 
 
@@ -50,8 +50,8 @@
 (defn sample-covariance
 
   ([X Y]
-   (let [avgX (utils/average X)
-         avgY (utils/average Y)]
+   (let [avgX (utils/mean X)
+         avgY (utils/mean Y)]
      (sample-covariance X Y avgX avgY)))
 
   ([X Y avgX avgY]

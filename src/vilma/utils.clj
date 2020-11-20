@@ -6,8 +6,13 @@
 
 (defn-spec exponent number?
   "Takes `x` and `n`, Returns power of `x` to the `n`"
-  [x number?, n int?]
+  [x number?, n number?]
   (Math/pow x n))
+
+(defn-spec absolute number?
+  "Takes `x` and `n`, Returns power of `x` to the `n`"
+  [x number?]
+  (Math/abs (double x)))
 
 (defn-spec eulers number?
   [n number?]
@@ -22,7 +27,7 @@
   [x number?]
   (/ (Math/round (* x 100.0)) 100.0))
 
-(defn-spec average float?
+(defn-spec mean float?
   [numbers sequential?]
   (float (/ (reduce + numbers) (count numbers))))
 

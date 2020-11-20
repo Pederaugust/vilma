@@ -6,7 +6,7 @@
    [clojure.spec.alpha :as s]
    [orchestra.core :refer [defn-spec]]
    [orchestra.spec.test :as st]
-   [vilma.utils :as utils :refer [eulers average square]]
+   [vilma.utils :as utils :refer [eulers mean square]]
    [vilma.statistics :as stat]))
 
 (mat/set-current-implementation :vectorz)
@@ -70,8 +70,8 @@
   Returns: a model that can be used to predict y for x"
   [X sequential?, y sequential?]
 
-  (let [avgX (average X)
-        avgy (average y)
+  (let [avgX (mean X)
+        avgy (mean y)
        
         M (stat/variance-numerator X avgX)
         B (/ (stat/covariance-numerator X y avgX avgy)
@@ -140,55 +140,50 @@ little more friendly to the user"
   [{:keys [nodes] :as layer} previous-layer-shape]
   (assoc layer :weights (generate-weight-matrix nodes previous-layer-shape)))
 
+(defn- initialize-layers
+  [input-shape layers]
 
-(defn- find-layer-output [{:keys [layers] :as net} x]
+  (loop [previous-shape input-shape
+         new-layers []
+         old-layers layers]
+
+    (if (empty? old-layers)
+      new-layers
+      (recur (:nodes (first old-layers))
+             (conj new-layers
+                   (initialize-layer (first old-layers) previous-shape))
+             (rest old-layers)))))
+
+
+(defn- forward-pass
+  "Does a forward pass of a neural with an input x
+  Returns the output between each layer."
+  [{:keys [layers] :as net} x]
   (let [first-hidden (first layers)
         remaining (rest layers)
+
         first-activation (:activation first-hidden)
         first-weights (:weights first-hidden)]
+    (reduce (fn [outputs {activation :activation
+                          weights :weights}]
 
-    (reduce (fn [outputs {activation :activation weights :weights}]
-              (conj outputs (activation (mat/mmul (last outputs) weights))))
+              (conj outputs
+                    (activation (mat/mmul (last outputs)
+                                          weights)))) ;; get the result of applying the layer to the last output
+
             [(first-activation (mat/mmul (mat/array x)
-                                         first-weights))]
+                                         first-weights))] ;; initialize with the first layer
             remaining)))
 
 
 (defmethod predict :neuralnet
   [{:keys [layers] :as model} x]
-  (last (find-layer-output model x)))
+  (last (forward-pass model x)))
 
 (defn neuralnet-init [& {:keys [input-shape layers]}]
   {:model-type :neuralnet
    :input-shape input-shape
-   :layers (:current-list (reduce (fn [acc layer]
-                                    {:previous-layer-shape (:nodes layer)
-                                     :current-list (conj (:current-list acc)
-                                                         (initialize-layer layer (:previous-layer-shape acc)))})
-                                  {:previous-layer-shape input-shape
-                                   :current-list []}
-                                  layers))})
-
-(defn adjust-weights [{:keys [layers learning-rate] :as neuralnet} x y]
-  (let [outputlist (find-layer-output neuralnet x)] ;; Do the prediction and create the layer outputs
-
-    (loop [output outputlist
-           index (- (count outputlist) 1)
-           error (mat/square (op/- (last outputlist) y))
-           newNet neuralnet] ;; Find the first errors ;; ;;
-      (if (empty? output)
-        newNet
-        (do
-          (prn index)
-          (recur (butlast output)
-                 (- index 1)
-                 (mat/square (op/- (get-in neuralnet [:layers index :weights])
-                                   error))
-
-
-                 (assoc-in newNet [:layers (- index 1) :weights]
-                           (op/* learning-rate (mat/mmul (op/* error output (op/- 1.0 output))
-                                                         (nth outputlist index))))))))))
+   :layers (initialize-layers input-shape layers)})
 
 
 

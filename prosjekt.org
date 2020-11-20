@@ -1,0 +1,4 @@
+#+TITLE: Prosjekt
+
+* TODO support for finding discount-rate
+* TODO write docs for stock-price

@@ -2,7 +2,7 @@
 
 Statistical and financial clojure. 
 
-
+**Cashflow calculation starts from year 0**
 ## Usage
 
 ### Learn package
@@ -81,10 +81,10 @@ Arguments to functions are non-positional, so the order doesn't matter.
                    :discount-rate 5)
 ;; => 61.39
 
-;; Present value of cashflow
+;; Present value of cashflow (starts from year 0)
 (fin/present-value :cashflow [100 100 -10 100] 
                    :discount-rate 10)
-;; => 234.34
+;; => 257.78
 
 ;; Present value of non-growing perpetuity
 (fin/present-value :payment 10 
@@ -119,6 +119,26 @@ Arguments to functions are non-positional, so the order doesn't matter.
                   :n 10 
                   :interest-rate 5)
 ;; => 162.89
+(fin/future-value :payment 10
+                  :n 10 
+                  :interest-rate 10)
+;; => -159.37
+(fin/future-value :payment 10
+                  :n 10 
+                  :interest-rate 10)
+                  :growth-rate 5)
+;; => -74.4
+(fin/future-value :payment 10
+                  :present-value 100
+                  :n 10 
+                  :interest-rate 10)
+;; => -418.75
+
+(fin/future-value :payment 10
+                  :present-value 100
+                  :n 10 
+                  :interest-rate 10)
+                  :growth-rate 5)
 
 ```
 
